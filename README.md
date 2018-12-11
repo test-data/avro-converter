@@ -115,4 +115,5 @@ docker run -p 8080:8080 nifitest
 
 Запуск собранного docker образа из docker hub
 https://hub.docker.com/r/255945/avro-converter/
+
 docker pull 255945/avro-converter
