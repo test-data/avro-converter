@@ -185,7 +185,7 @@ public class TestAvroRecordConverterCustom {
                 .endRecord();
 
         AvroRecordConverterCustom converter = new AvroRecordConverterCustom(input, output,
-                EMPTY_MAPPING, LocaleUtils.toLocale("en_US"),context);
+                EMPTY_MAPPING, LocaleUtils.toLocale("en_US"),context.getProperties());
 
         Record inputRecord = new Record(input);
         inputRecord.put("s1", null);
@@ -225,7 +225,7 @@ public class TestAvroRecordConverterCustom {
         Map<String, String> mapping = ImmutableMap.of("parent.id", "parentId");
 
         AvroRecordConverterCustom converter = new AvroRecordConverterCustom(input, output,
-                mapping,context);
+                mapping,context.getProperties());
 
         Record inputRecord = new Record(input);
         inputRecord.put("l1", 5L);
@@ -256,7 +256,7 @@ public class TestAvroRecordConverterCustom {
                 .optionalString("l1").requiredLong("l2").endRecord();
 
         AvroRecordConverterCustom converter = new AvroRecordConverterCustom(input, output,
-                EMPTY_MAPPING,context);
+                EMPTY_MAPPING,context.getProperties());
 
         Record inputRecord = new Record(input);
         inputRecord.put("s1", "blah");
@@ -278,22 +278,22 @@ public class TestAvroRecordConverterCustom {
 
         // Test the case where the field isn't mapped at all.
         AvroRecordConverterCustom converter = new AvroRecordConverterCustom(input, output,
-                EMPTY_MAPPING,context);
+                EMPTY_MAPPING,context.getProperties());
         assertEquals(ImmutableList.of("field"), converter.getUnmappedFields());
 
         // Test the case where we tried to map from a non-existent field.
         converter = new AvroRecordConverterCustom(input, output, ImmutableMap.of(
-                "nonExistentField", "field"),context);
+                "nonExistentField", "field"),context.getProperties());
         assertEquals(ImmutableList.of("field"), converter.getUnmappedFields());
 
         // Test the case where we tried to map from a non-existent record.
         converter = new AvroRecordConverterCustom(input, output, ImmutableMap.of(
-                "parent.nonExistentField", "field"),context);
+                "parent.nonExistentField", "field"),context.getProperties());
         assertEquals(ImmutableList.of("field"), converter.getUnmappedFields());
 
         // Test a valid case
         converter = new AvroRecordConverterCustom(input, output, ImmutableMap.of(
-                "l2", "field"),context);
+                "l2", "field"),context.getProperties());
         assertEquals(Collections.EMPTY_LIST, converter.getUnmappedFields());
     }
 }

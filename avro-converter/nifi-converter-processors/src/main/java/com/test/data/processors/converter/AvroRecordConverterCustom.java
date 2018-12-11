@@ -25,6 +25,7 @@ import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.generic.GenericData.Record;
 import org.apache.avro.generic.IndexedRecord;
+import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.processor.ProcessContext;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class AvroRecordConverterCustom {
     // Store this from output field to input field so we can look up by output.
     private final Map<String, String> fieldMapping;
     private final Locale locale;
-    private final ProcessContext context;
+    private final Map<PropertyDescriptor, String> context;
 
     private static final Locale DEFAULT_LOCALE = Locale.getDefault();
     private static final String DEFAULT_YEAR = "Year";
@@ -58,7 +59,7 @@ public class AvroRecordConverterCustom {
      * @param context      ProcessContext for getting a propertyDescriptor
      */
     public AvroRecordConverterCustom(Schema inputSchema, Schema outputSchema,
-                                     Map<String, String> fieldMapping, ProcessContext context) {
+                                     Map<String, String> fieldMapping, Map<PropertyDescriptor, String> context) {
         this(inputSchema, outputSchema, fieldMapping, DEFAULT_LOCALE, context);
     }
 
@@ -71,7 +72,7 @@ public class AvroRecordConverterCustom {
      * @param context      ProcessContext for getting a propertyDescriptor
      */
     public AvroRecordConverterCustom(Schema inputSchema, Schema outputSchema,
-                                     Map<String, String> fieldMapping, Locale locale, ProcessContext context) {
+                                     Map<String, String> fieldMapping, Locale locale, Map<PropertyDescriptor, String> context) {
         this.inputSchema = inputSchema;
         this.outputSchema = outputSchema;
         // Need to reverse this map.
@@ -186,7 +187,7 @@ public class AvroRecordConverterCustom {
                 tmp = currentRecord.get(f.pos());
 
                 if (outputField.name().equals(DEFAULT_YEAR) && tmp != null) {
-                    Float tmp2 = Float.valueOf(context.getProperty(ConvertAvroSchemaCustom.YEAR_END).getValue()) - (Float) tmp;
+                    Float tmp2 = Float.valueOf(context.get(ConvertAvroSchemaCustom.YEAR_END)) - (Float) tmp;
                     result.put(
                             outputField.name(),
                             convertData(tmp2, f.schema(),
@@ -194,9 +195,9 @@ public class AvroRecordConverterCustom {
                 } else if (outputField.name().equals(DEFAULT_GENDER) && tmp != null) {
                     int tmp2 = DEFAULT_GENDER_NAN;
                     if (String.valueOf(tmp).equals(DEFAULT_FEMALE)) {
-                        tmp2 = Integer.valueOf(context.getProperty(ConvertAvroSchemaCustom.CONVERT_FEMALE_FOR_INT).getValue());
+                        tmp2 = Integer.valueOf(context.get(ConvertAvroSchemaCustom.CONVERT_FEMALE_FOR_INT));
                     } else if (String.valueOf(tmp).equals(DEFAULT_MALE)) {
-                        tmp2 = Integer.valueOf(context.getProperty(ConvertAvroSchemaCustom.CONVERT_MALE_FOR_INT).getValue());
+                        tmp2 = Integer.valueOf(context.get(ConvertAvroSchemaCustom.CONVERT_MALE_FOR_INT));
                     }
                     result.put(
                             outputField.name(),

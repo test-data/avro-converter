@@ -109,7 +109,7 @@ public class ConvertAvroSchemaCustom extends AbstractKiteConvertProcessor {
                         }
                     }
                     AvroRecordConverterCustom converter = new AvroRecordConverterCustom(
-                            inputSchema, outputSchema, fieldMapping, (ProcessContext) context);
+                            inputSchema, outputSchema, fieldMapping, context.getProperties());
                     Collection<String> unmappedFields = converter
                             .getUnmappedFields();
                     if (unmappedFields.size() > 0) {
@@ -306,7 +306,7 @@ public class ConvertAvroSchemaCustom extends AbstractKiteConvertProcessor {
         final String localeProperty = context.getProperty(LOCALE).getValue();
         final Locale locale = localeProperty.equals(DEFAULT_LOCALE_VALUE) ? Locale.getDefault() : LocaleUtils.toLocale(localeProperty);
         final AvroRecordConverterCustom converter = new AvroRecordConverterCustom(
-                inputSchema, outputSchema, fieldMapping, locale, context);
+                inputSchema, outputSchema, fieldMapping, locale, context.getProperties());
 
         final DataFileWriter<Record> writer = new DataFileWriter<>(
                 AvroUtil.newDatumWriter(outputSchema, Record.class));
