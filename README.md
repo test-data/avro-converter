@@ -7,7 +7,7 @@ Dockerfile - для сборки образа ApacheNiFi c библиотека�
 titanic.csv - файл с входными данными
 avro-converter/nifi-converter-nar/target/nifi-converter-nar-1.0-SNAPSHOT.nar - собранный проект
 
-## форматы данных
+## data format
 Входной формат - titanic.csv – входные данные в формате CSV 1,0,3,"Braund, Mr. Owen Harris",male,22,1,0,A/5 21171,7.25,,S)
 Avro schema csv-Avro:
 
@@ -102,7 +102,7 @@ Avro schema csv-Avro:
   ]
 }
 
-## сборка и деплой
+## install & deploy
 Сборка проекта - mvn clean install 
 
 Загрузка Apache NiFi и добавить собранный *.nar в директорию nifi/lib
