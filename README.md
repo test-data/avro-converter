@@ -1,5 +1,6 @@
 # avro-converter
 Преобразование из csv формата в Avro и преобразование схемы. Задача реализована с помощью Apache NiFi.
+
 За основу взят стандартный процессор Apache Nifi - kite. 
 AvroConverter.xml -  Apache NiFi template
 Dockerfile - для сборки образа ApacheNiFi c библиотеками avro-converter
@@ -9,6 +10,7 @@ avro-converter/nifi-converter-nar/target/nifi-converter-nar-1.0-SNAPSHOT.nar - �
 ## форматы данных
 Входной формат - titanic.csv – входные данные в формате CSV 1,0,3,"Braund, Mr. Owen Harris",male,22,1,0,A/5 21171,7.25,,S)
 Avro schema csv-Avro:
+
 Формат преобразования из csv в Avro
 {
   "type": "record",
@@ -79,7 +81,7 @@ Avro schema csv-Avro:
   ]
 }
 
-Выходной формат:
+
 Выходная схема Avro:
 {
   "type": "record",
