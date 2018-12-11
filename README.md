@@ -112,3 +112,7 @@ docker build -t nifitest .
 docker run -p 8080:8080 nifitest
 
 Зайти на http://127.0.0.1:8080/nifi и загрузить template (инструкция по загрузке  темлейтов ( https://docs.hortonworks.com/HDPDocuments/HDF3/HDF-3.1.1/bk_getting-started-with-apache-nifi/content/working-with-templates.html )
+
+Запуск собранного docker образа из docker hub
+https://hub.docker.com/r/255945/avro-converter/
+docker pull 255945/avro-converter
